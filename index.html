@@ -1,0 +1,2094 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sherwin Rich Espela | VB.NET Developer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2C3E50;
+            --secondary: #3498DB;
+            --accent: #E74C3C;
+            --light: #F8F9FA;
+            --dark: #1A252F;
+            --gray: #6C757D;
+            --gray-light: #E9ECEF;
+            --gradient: linear-gradient(135deg, #2C3E50 0%, #3498DB 100%);
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+            --border-radius: 8px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: #f8fafc;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Main Layout */
+        .portfolio-container {
+            display: flex;
+            height: 100vh;
+            position: relative;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 80px;
+            background: white;
+            border-right: 1px solid var(--gray-light);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 0;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+
+        .nav-logo {
+            margin-bottom: 3rem;
+        }
+
+        .logo-text {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            transform: rotate(180deg);
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: white;
+            color: var(--primary);
+            font-size: 1.2rem;
+            text-decoration: none;
+            transition: var(--transition);
+            border: 1px solid var(--gray-light);
+            cursor: pointer;
+        }
+
+        .nav-icon:hover,
+        .nav-icon.active {
+            background: var(--gradient);
+            color: white;
+            border-color: var(--secondary);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 80px;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .section {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            background: #f8fafc;
+        }
+
+        .section.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Content Wrapper */
+        .content-wrapper {
+            height: 100%;
+            overflow-y: auto;
+            padding: 2rem 0;
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            align-items: center;
+            min-height: 100%;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--gradient);
+            color: white;
+            padding: 0.5rem 1.25rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.25rem;
+            color: var(--primary);
+        }
+
+        .hero-title .highlight {
+            color: var(--secondary);
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: var(--gray);
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.875rem 1.75rem;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 1px solid var(--gray-light);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        .hero-visual {
+            position: relative;
+        }
+
+        .profile-container {
+            position: relative;
+            width: 360px;
+            height: 360px;
+            margin: 0 auto;
+        }
+
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 4px solid white;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            display: block;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            color: var(--gray);
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        /* Section Headers */
+        .section-header {
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Expertise Section */
+        .expertise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .expertise-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-light);
+            transition: var(--transition);
+        }
+
+        .expertise-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .expertise-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, rgba(44, 62, 80, 0.1) 0%, rgba(52, 152, 219, 0.1) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.25rem;
+            font-size: 1.5rem;
+            color: var(--secondary);
+        }
+
+        .expertise-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .expertise-card p {
+            color: var(--gray);
+            margin-bottom: 1.25rem;
+            line-height: 1.6;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tech-tag {
+            background: var(--light);
+            padding: 0.4rem 0.875rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--primary);
+            border: 1px solid var(--gray-light);
+        }
+
+        .tech-tag.primary {
+            background: var(--gradient);
+            color: white;
+            border: none;
+        }
+
+        /* Projects Section - CAROUSEL */
+        .projects-section {
+            padding: 1rem 0;
+        }
+
+        .project-carousel {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto 3rem;
+            overflow: visible;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            background: white;
+        }
+
+        .carousel-container {
+            position: relative;
+            background: white;
+            border-radius: var(--border-radius);
+            min-height: 550px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            display: flex;
+            flex-direction: column;
+            pointer-events: none;
+            visibility: hidden;
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+            position: relative;
+            pointer-events: all;
+            visibility: visible;
+        }
+
+        .slide-header {
+            padding: 2rem;
+            background: var(--gradient);
+            color: white;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+            flex-shrink: 0;
+        }
+
+        .slide-header h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .slide-header .date {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.95rem;
+        }
+
+        .slide-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            flex: 1;
+            min-height: 300px;
+        }
+
+        .slide-visual {
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8fafc;
+            border-right: 1px solid var(--gray-light);
+        }
+
+        /* Video Container Styles */
+        .video-container {
+            width: 100%;
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .watch-on-youtube {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            z-index: 10;
+            transition: var(--transition);
+        }
+
+        .watch-on-youtube:hover {
+            background: #ff0000;
+            transform: scale(1.05);
+        }
+
+        .watch-on-youtube i {
+            color: #ff0000;
+        }
+
+        .watch-on-youtube:hover i {
+            color: white;
+        }
+
+        .slide-details {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .slide-description {
+            color: var(--gray);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-item {
+            background: var(--light);
+            padding: 1rem;
+            border-radius: 6px;
+            border-left: 3px solid var(--secondary);
+        }
+
+        .feature-item h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: var(--primary);
+        }
+
+        .feature-item p {
+            color: var(--gray);
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+
+        .slide-footer {
+            padding: 1.5rem 2rem;
+            background: var(--light);
+            border-top: 1px solid var(--gray-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+            flex-shrink: 0;
+        }
+
+        .slide-footer .project-impact {
+            font-size: 0.95rem;
+            color: var(--dark);
+        }
+
+        /* Carousel Navigation */
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 1rem;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .carousel-btn {
+            pointer-events: all;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: white;
+            border: 1px solid var(--gray-light);
+            color: var(--primary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        .carousel-btn:hover {
+            background: var(--gradient);
+            color: white;
+            border-color: var(--secondary);
+            transform: scale(1.1);
+        }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+        }
+
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--gray-light);
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .carousel-dot.active {
+            background: var(--secondary);
+            transform: scale(1.2);
+        }
+
+        /* Responsive Design for Carousel */
+        @media (max-width: 992px) {
+            .carousel-container {
+                min-height: 600px;
+            }
+            
+            .slide-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .slide-visual {
+                border-right: none;
+                border-bottom: 1px solid var(--gray-light);
+                min-height: 250px;
+                padding: 1rem;
+            }
+            
+            .video-container {
+                max-height: 250px;
+            }
+            
+            .slide-details {
+                overflow-y: visible;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .project-carousel {
+                margin: 0 1rem 3rem;
+            }
+            
+            .carousel-container {
+                min-height: 650px;
+            }
+            
+            .slide-header {
+                padding: 1.5rem;
+            }
+            
+            .slide-visual {
+                padding: 1rem;
+                min-height: 200px;
+            }
+            
+            .slide-details {
+                padding: 1.5rem;
+            }
+            
+            .slide-footer {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .carousel-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+
+            .video-container {
+                max-height: 200px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .carousel-container {
+                min-height: 700px;
+            }
+            
+            .video-container {
+                max-height: 180px;
+            }
+            
+            .slide-header h3 {
+                font-size: 1.3rem;
+            }
+            
+            .features-grid {
+                gap: 0.75rem;
+            }
+            
+            .feature-item {
+                padding: 0.75rem;
+            }
+
+            .watch-on-youtube {
+                font-size: 0.7rem;
+                padding: 4px 8px;
+            }
+        }
+
+        @media (max-height: 800px) {
+            .slide-details {
+                max-height: 300px;
+                overflow-y: auto;
+            }
+            
+            .slide-details::-webkit-scrollbar {
+                width: 4px;
+            }
+            
+            .slide-details::-webkit-scrollbar-track {
+                background: #f1f1f1;
+            }
+            
+            .slide-details::-webkit-scrollbar-thumb {
+                background: var(--secondary);
+                border-radius: 2px;
+            }
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .personal-info-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-light);
+            text-align: center;
+        }
+
+        .personal-info-card h2 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .info-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem;
+            background: var(--light);
+            border-radius: 6px;
+            text-align: left;
+        }
+
+        .info-item i {
+            font-size: 1rem;
+            color: var(--secondary);
+            width: 20px;
+        }
+
+        .info-item div {
+            flex: 1;
+        }
+
+        .info-item strong {
+            display: block;
+            color: var(--dark);
+            font-size: 0.85rem;
+            margin-bottom: 0.125rem;
+        }
+
+        .info-item span {
+            color: var(--gray);
+            font-size: 0.85rem;
+        }
+
+        .personal-statement {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-light);
+            margin-bottom: 2rem;
+        }
+
+        .personal-statement h3 {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .personal-statement p {
+            color: var(--gray);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .education-section {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-light);
+        }
+
+        .education-section h3 {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .education-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .education-item {
+            background: var(--light);
+            border-radius: 8px;
+            padding: 1.5rem;
+            border-left: 3px solid var(--secondary);
+        }
+
+        .education-item h4 {
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .degree {
+            color: var(--secondary);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .institution {
+            color: var(--dark);
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .year {
+            color: var(--gray);
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: white;
+            border-radius: 50px;
+        }
+
+        .highlight-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+
+        .highlight-item i {
+            color: var(--secondary);
+            margin-top: 0.125rem;
+            font-size: 0.8rem;
+        }
+
+        .achievement-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--gradient);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-top: 1rem;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-light);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .contact-card {
+            padding: 1.5rem;
+            background: var(--light);
+            border-radius: 8px;
+            border: 1px solid var(--gray-light);
+        }
+
+        .contact-card h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1.25rem;
+            color: var(--primary);
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.875rem;
+            background: white;
+            border-radius: 6px;
+            transition: var(--transition);
+        }
+
+        .contact-item:hover {
+            transform: translateX(4px);
+        }
+
+        .contact-item i {
+            font-size: 1.1rem;
+            color: var(--secondary);
+            width: 24px;
+        }
+
+        .contact-details span {
+            display: block;
+            font-weight: 500;
+            color: var(--dark);
+            font-size: 0.95rem;
+        }
+
+        .contact-details small {
+            color: var(--gray);
+            font-size: 0.8rem;
+        }
+
+        .contact-cta {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--gray-light);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 3rem;
+            }
+
+            .hero-visual {
+                order: -1;
+            }
+
+            .profile-container {
+                width: 300px;
+                height: 300px;
+            }
+
+            .hero-title {
+                font-size: 2.2rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .personal-info-card {
+                max-width: 400px;
+                margin: 0 auto;
+            }
+
+            .carousel-container {
+                height: 550px;
+            }
+
+            .slide-content {
+                grid-template-columns: 1fr;
+            }
+
+            .slide-visual {
+                border-right: none;
+                border-bottom: 1px solid var(--gray-light);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+
+            .stats {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .education-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .carousel-container {
+                height: 600px;
+            }
+
+            .slide-header {
+                padding: 1.5rem;
+            }
+
+            .slide-visual,
+            .slide-details {
+                padding: 1.5rem;
+            }
+
+            .carousel-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .hero-title {
+                font-size: 1.8rem;
+            }
+
+            .expertise-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .carousel-container {
+                height: 650px;
+            }
+
+            .slide-footer {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+                padding: 1rem;
+            }
+
+            .personal-statement,
+            .education-section,
+            .contact-section {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            background: var(--gradient);
+            color: white;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            border: none;
+        }
+
+        /* Section content scrolling */
+        .content-wrapper::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .content-wrapper::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .content-wrapper::-webkit-scrollbar-thumb {
+            background: var(--secondary);
+            border-radius: 3px;
+        }
+
+        .content-wrapper::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+
+        /* Animation for section transitions */
+        .section.active {
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="portfolio-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="nav-logo">
+                <span class="logo-text">SRE</span>
+            </div>
+            <div class="sidebar-nav">
+                <button class="nav-icon active" title="Home" data-target="home">
+                    <i class="fas fa-home"></i>
+                </button>
+                <button class="nav-icon" title="Expertise" data-target="expertise">
+                    <i class="fas fa-laptop-code"></i>
+                </button>
+                <button class="nav-icon" title="Projects" data-target="projects">
+                    <i class="fas fa-code"></i>
+                </button>
+                <button class="nav-icon" title="About" data-target="about">
+                    <i class="fas fa-user"></i>
+                </button>
+                <button class="nav-icon" title="Contact" data-target="contact">
+                    <i class="fas fa-envelope"></i>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Mobile Menu Toggle -->
+        <button class="mobile-menu-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="section-container">
+                <!-- Home Section -->
+                <section id="home" class="section active">
+                    <div class="content-wrapper">
+                        <div class="container">
+                            <div class="hero">
+                                <div class="hero-content">
+                                    <div class="hero-text">
+                                        <span class="hero-badge">VB.NET Desktop Developer</span>
+                                        <h1 class="hero-title">
+                                            Sherwin Rich <span class="highlight">Espela</span>
+                                        </h1>
+                                        <p class="hero-description">
+                                            BS Computer Science graduate specializing in VB.NET Windows Forms development. 
+                                            Currently developing enterprise desktop applications for Mayer Steel Pipe Corporation 
+                                            with focus on efficiency and user-friendly interfaces.
+                                        </p>
+                                        <div class="hero-buttons">
+                                            <button class="btn btn-primary" data-target="projects">
+                                                <i class="fas fa-code"></i>
+                                                <span>View My Work</span>
+                                            </button>
+                                            <a href="Resources\Pictures\CV_ESPELA SHERWIN.jpg.png" download="Sherwin_Rich_Espela_CV.jpg" class="btn btn-secondary">
+                                                <i class="fas fa-download"></i>
+                                                <span>Download CV</span>
+                                            </a>
+                                        </div>
+                                        <div class="stats">
+                                            <div class="stat-item">
+                                                <span class="stat-number">2+</span>
+                                                <span class="stat-label">Years Experience</span>
+                                            </div>
+                                            <div class="stat-item">
+                                                <span class="stat-number">10+</span>
+                                                <span class="stat-label">Projects Delivered</span>
+                                            </div>
+                                            <div class="stat-item">
+                                                <span class="stat-number">100%</span>
+                                                <span class="stat-label">VB.NET Focus</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="hero-visual">
+                                        <div class="profile-container">
+                                            <img src="WBC_ 7248.JPG" alt="Sherwin Rich Espela" class="profile-image">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Expertise Section -->
+                <section id="expertise" class="section">
+                    <div class="content-wrapper">
+                        <div class="container">
+                            <div class="section-header">
+                                <h2 class="section-title">My Specialization</h2>
+                                <p class="section-subtitle">Deep expertise in VB.NET Windows Forms development and enterprise solutions</p>
+                            </div>
+                            <div class="expertise-grid">
+                                <div class="expertise-card">
+                                    <div class="expertise-icon">
+                                        <i class="fab fa-windows"></i>
+                                    </div>
+                                    <h3>VB.NET Development</h3>
+                                    <p>
+                                        Specialized in developing robust Windows Forms applications using VB.NET, focusing on creating efficient, scalable desktop solutions for business operations.
+                                    </p>
+                                    <div class="tech-stack">
+                                        <span class="tech-tag primary">VB.NET</span>
+                                        <span class="tech-tag">Windows Forms</span>
+                                        <span class="tech-tag">ADO.NET</span>
+                                        <span class="tech-tag">Crystal Reports</span>
+                                    </div>
+                                </div>
+
+                                <div class="expertise-card">
+                                    <div class="expertise-icon">
+                                        <i class="fas fa-database"></i>
+                                    </div>
+                                    <h3>Database Management</h3>
+                                    <p>
+                                        Proficient in MySQL database design, optimization, and integration with VB.NET applications. Experienced in creating efficient data models and queries.
+                                    </p>
+                                    <div class="tech-stack">
+                                        <span class="tech-tag primary">MySQL</span>
+                                        <span class="tech-tag">SQL Server</span>
+                                        <span class="tech-tag">Database Design</span>
+                                        <span class="tech-tag">Stored Procedures</span>
+                                    </div>
+                                </div>
+
+                                <div class="expertise-card">
+                                    <div class="expertise-icon">
+                                        <i class="fas fa-building"></i>
+                                    </div>
+                                    <h3>Enterprise Systems</h3>
+                                    <p>
+                                        Developed comprehensive business systems including Collection, CRM, and Quotation systems. Focus on practical solutions that streamline operations.
+                                    </p>
+                                    <div class="tech-stack">
+                                        <span class="tech-tag primary">Enterprise Apps</span>
+                                        <span class="tech-tag">Business Logic</span>
+                                        <span class="tech-tag">Workflow Automation</span>
+                                        <span class="tech-tag">Reporting</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Projects Section with Carousel -->
+                <section id="projects" class="section">
+                    <div class="content-wrapper">
+                        <div class="container">
+                            <div class="section-header">
+                                <h2 class="section-title">Project Showcase</h2>
+                                <p class="section-subtitle">Featured VB.NET Applications - Collection System & Academic Projects</p>
+                            </div>
+
+                            <div class="projects-carousel-container">
+                                <!-- Carousel Container -->
+                                <div class="project-carousel">
+                                    <div class="carousel-container">
+                                        <!-- Slide 1 - Collection System -->
+                                        <div class="carousel-slide active">
+                                            <div class="slide-header">
+                                                <h3>Collection Management System</h3>
+                                                <p class="date">Enterprise Desktop Application</p>
+                                            </div>
+                                            <div class="slide-content">
+                                                <div class="slide-visual">
+                                                    <div class="video-container">
+                                                        <iframe src="https://www.youtube.com/embed/RGsnCp-rUMI" 
+                                                                title="Collection Management System Demo" 
+                                                                frameborder="0" 
+                                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                                                allowfullscreen>
+                                                        </iframe>
+                                                        <a href="https://youtu.be/RGsnCp-rUMI" target="_blank" class="watch-on-youtube">
+                                                            <i class="fab fa-youtube"></i>
+                                                            Watch on YouTube
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="slide-details">
+                                                    <p class="slide-description">
+                                                        Comprehensive Collection Management System developed for Mayer Steel Pipe Corporation.
+                                                        This enterprise-level application manages customer collections, generates SOA reports,
+                                                        tracks account balances, and streamlines financial operations.
+                                                    </p>
+                                                    <div class="features-grid">
+                                                        <div class="feature-item">
+                                                            <h4>Complete Financial Management</h4>
+                                                            <p>End-to-end collection tracking and account management</p>
+                                                        </div>
+                                                        <div class="feature-item">
+                                                            <h4>Automated Reporting</h4>
+                                                            <p>Automatic generation of SOA reports and financial statements</p>
+                                                        </div>
+                                                        <div class="feature-item">
+                                                            <h4>Database Integration</h4>
+                                                            <p>Seamless integration with MySQL for real-time data processing</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tech-stack">
+                                                        <span class="tech-tag primary">VB.NET Windows Forms</span>
+                                                        <span class="tech-tag">MySQL Database</span>
+                                                        <span class="tech-tag">Crystal Reports</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slide-footer">
+                                                <div class="project-impact">
+                                                    <strong>Enterprise Solution:</strong> Currently deployed at Mayer Steel Pipe Corporation
+                                                </div>
+                                                <div class="project-navigation">
+                                                    <span class="tech-tag">Business Application</span>
+                                                    <span class="tech-tag">Financial System</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Slide 2 - Academic Scheduling System -->
+                                        <div class="carousel-slide">
+                                            <div class="slide-header">
+                                                <h3>Academic Scheduling System</h3>
+                                                <p class="date">Thesis Project - Best in Thesis Award Winner</p>
+                                            </div>
+                                            <div class="slide-content">
+                                                <div class="slide-visual">
+                                                    <div class="video-container">
+                                                        <iframe src="https://www.youtube.com/embed/9OadgOtWPFM" 
+                                                                title="Academic Scheduling System Demo" 
+                                                                frameborder="0" 
+                                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                                                allowfullscreen>
+                                                        </iframe>
+                                                        <a href="https://www.youtube.com/watch?v=9OadgOtWPFM" target="_blank" class="watch-on-youtube">
+                                                            <i class="fab fa-youtube"></i>
+                                                            Watch on YouTube
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="slide-details">
+                                                    <p class="slide-description">
+                                                        Award-winning Academic Scheduling System developed as my college thesis.
+                                                        This system automates class scheduling, room assignment, and conflict resolution
+                                                        for educational institutions, earning the "Best in Thesis" award.
+                                                    </p>
+                                                    <div class="features-grid">
+                                                        <div class="feature-item">
+                                                            <h4>Automated Scheduling</h4>
+                                                            <p>Intelligent algorithm for conflict-free class scheduling</p>
+                                                        </div>
+                                                        <div class="feature-item">
+                                                            <h4>Room Management</h4>
+                                                            <p>Efficient room allocation based on class requirements</p>
+                                                        </div>
+                                                        <div class="feature-item">
+                                                            <h4>Instructor Assignment</h4>
+                                                            <p>Automatic assignment of instructors to classes</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tech-stack">
+                                                        <span class="tech-tag primary">VB.NET Windows Forms</span>
+                                                        <span class="tech-tag">Scheduling Algorithm</span>
+                                                        <span class="tech-tag">Database Management</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slide-footer">
+                                                <div class="project-impact">
+                                                    <strong>Award Winner:</strong> Best in Thesis Award 2024
+                                                </div>
+                                                <div class="project-navigation">
+                                                    <span class="tech-tag">Academic System</span>
+                                                    <span class="tech-tag">Thesis Project</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Slide 3 - AMA College Enrollment System -->
+                                        <div class="carousel-slide">
+                                            <div class="slide-header">
+                                                <h3>AMA College Enrollment System</h3>
+                                                <p class="date">4th Year Thesis Project - Group Collaboration</p>
+                                            </div>
+                                            <div class="slide-content">
+                                                <div class="slide-visual">
+                                                    <div class="video-container">
+                                                        <iframe src="https://www.youtube.com/embed/Z3kYjEVuj2Q" 
+                                                                title="AMA College Enrollment System Demo" 
+                                                                frameborder="0" 
+                                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                                                allowfullscreen>
+                                                        </iframe>
+                                                        <a href="https://youtu.be/Z3kYjEVuj2Q" target="_blank" class="watch-on-youtube">
+                                                            <i class="fab fa-youtube"></i>
+                                                            Watch on YouTube
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="slide-details">
+                                                    <p class="slide-description">
+                                                        Comprehensive enrollment system developed during our 4th year studies.
+                                                        Collaborated with 2 other team members to create a robust system for AMA College,
+                                                        featuring student registration, course management, and enrollment tracking.
+                                                    </p>
+                                                    <div class="features-grid">
+                                                        <div class="feature-item">
+                                                            <h4>Student Registration</h4>
+                                                            <p>Complete student profile creation and management system</p>
+                                                        </div>
+                                                        <div class="feature-item">
+                                                            <h4>Course Management</h4>
+                                                            <p>Course catalog, prerequisites, and scheduling features</p>
+                                                        </div>
+                                                        <div class="feature-item">
+                                                            <h4>Enrollment Processing</h4>
+                                                            <p>Streamlined enrollment workflow with validation checks</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tech-stack">
+                                                        <span class="tech-tag primary">VB.NET Windows Forms</span>
+                                                        <span class="tech-tag">MySQL Database</span>
+                                                        <span class="tech-tag">Group Collaboration</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slide-footer">
+                                                <div class="project-impact">
+                                                    <strong>Team Project:</strong> Developed with 2 other Computer Science students
+                                                </div>
+                                                <div class="project-navigation">
+                                                    <span class="tech-tag">Educational System</span>
+                                                    <span class="tech-tag">Group Project</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Slide 4 - Matic Complaint System -->
+                                        <div class="carousel-slide">
+                                            <div class="slide-header">
+                                                <h3>Mamatid Complaint System</h3>
+                                                <p class="date">Information System Thesis - Solo Development</p>
+                                            </div>
+                                            <div class="slide-content">
+                                                <div class="slide-visual">
+                                                    <div class="video-container">
+                                                        <iframe src="https://www.youtube.com/embed/CBfRXhDK6ag" 
+                                                                title="Matic Complaint System Demo" 
+                                                                frameborder="0" 
+                                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                                                allowfullscreen>
+                                                        </iframe>
+                                                        <a href="https://youtu.be/CBfRXhDK6ag" target="_blank" class="watch-on-youtube">
+                                                            <i class="fab fa-youtube"></i>
+                                                            Watch on YouTube
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="slide-details">
+                                                    <p class="slide-description">
+                                                        Solo-developed complaint management system for a batchmate's Information System thesis.
+                                                        This system handles complaint recording, tracking, and resolution management with
+                                                        comprehensive reporting and analytics features.
+                                                    </p>
+                                                    <div class="features-grid">
+                                                        <div class="feature-item">
+                                                            <h4>Complaint Recording</h4>
+                                                            <p>Structured complaint intake with categorization and priority levels</p>
+                                                        </div>
+                                                        <div class="feature-item">
+                                                            <h4>Tracking System</h4>
+                                                            <p>Real-time tracking of complaint status and resolution progress</p>
+                                                        </div>
+                                                        <div class="feature-item">
+                                                            <h4>Reporting & Analytics</h4>
+                                                            <p>Comprehensive reports and analytics on complaint patterns</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tech-stack">
+                                                        <span class="tech-tag primary">VB.NET Windows Forms</span>
+                                                        <span class="tech-tag">Record Keeping</span>
+                                                        <span class="tech-tag">Tracking System</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slide-footer">
+                                                <div class="project-impact">
+                                                    <strong>Solo Development:</strong> Independently developed for Information System thesis
+                                                </div>
+                                                <div class="project-navigation">
+                                                    <span class="tech-tag">Complaint System</span>
+                                                    <span class="tech-tag">Record Management</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Slide 5 - Collection System Features -->
+                                        <div class="carousel-slide">
+                                            <div class="slide-header">
+                                                <h3>Collection System - Advanced Features</h3>
+                                                <p class="date">Data Management & Reporting</p>
+                                            </div>
+                                            <div class="slide-content">
+                                                <div class="slide-visual">
+                                                    <div class="video-container">
+                                                        <iframe src="https://www.youtube.com/embed/RGsnCp-rUMI?start=60" 
+                                                                title="Collection System Features" 
+                                                                frameborder="0" 
+                                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                                                allowfullscreen>
+                                                        </iframe>
+                                                        <a href="https://youtu.be/RGsnCp-rUMI" target="_blank" class="watch-on-youtube">
+                                                            <i class="fab fa-youtube"></i>
+                                                            Watch on YouTube
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="slide-details">
+                                                    <p class="slide-description">
+                                                        Advanced features of the Collection System including data management,
+                                                        search functionality, filtering, and comprehensive reporting capabilities.
+                                                        Demonstrates the system's robust data handling and user-friendly interface.
+                                                    </p>
+                                                    <div class="features-grid">
+                                                        <div class="feature-item">
+                                                            <h4>Advanced Search & Filter</h4>
+                                                            <p>Multi-criteria filtering and intelligent search functionality</p>
+                                                        </div>
+                                                        <div class="feature-item">
+                                                            <h4>Data Validation</h4>
+                                                            <p>Real-time data validation and error prevention</p>
+                                                        </div>
+                                                        <div class="feature-item">
+                                                            <h4>Report Generation</h4>
+                                                            <p>Multiple report formats including Excel and PDF exports</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tech-stack">
+                                                        <span class="tech-tag primary">DataGridView</span>
+                                                        <span class="tech-tag">MySQL Integration</span>
+                                                        <span class="tech-tag">ADO.NET</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slide-footer">
+                                                <div class="project-impact">
+                                                    <strong>Key Feature:</strong> Advanced filtering and export capabilities
+                                                </div>
+                                                <div class="project-navigation">
+                                                    <span class="tech-tag">Data Management</span>
+                                                    <span class="tech-tag">Reporting System</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Slide 6 - Academic System Features -->
+                                        <div class="carousel-slide">
+                                            <div class="slide-header">
+                                                <h3>Academic System - Interface & Features</h3>
+                                                <p class="date">User Interface & System Functionality</p>
+                                            </div>
+                                            <div class="slide-content">
+                                                <div class="slide-visual">
+                                                    <div class="video-container">
+                                                        <iframe src="https://www.youtube.com/embed/9OadgOtWPFM?start=30" 
+                                                                title="Academic System Interface" 
+                                                                frameborder="0" 
+                                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                                                allowfullscreen>
+                                                        </iframe>
+                                                        <a href="https://www.youtube.com/watch?v=9OadgOtWPFM" target="_blank" class="watch-on-youtube">
+                                                            <i class="fab fa-youtube"></i>
+                                                            Watch on YouTube
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="slide-details">
+                                                    <p class="slide-description">
+                                                        Detailed showcase of the Academic Scheduling System's user interface,
+                                                        scheduling algorithms, and administrative features. Demonstrates how
+                                                        the system simplifies complex academic scheduling tasks.
+                                                    </p>
+                                                    <div class="features-grid">
+                                                        <div class="feature-item">
+                                                            <h4>Intuitive Interface</h4>
+                                                            <p>User-friendly design for easy navigation and operation</p>
+                                                        </div>
+                                                        <div class="feature-item">
+                                                            <h4>Scheduling Algorithm</h4>
+                                                            <p>Advanced algorithm for optimal schedule generation</p>
+                                                        </div>
+                                                        <div class="feature-item">
+                                                            <h4>Administrative Tools</h4>
+                                                            <p>Comprehensive tools for academic administrators</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tech-stack">
+                                                        <span class="tech-tag primary">Algorithm Design</span>
+                                                        <span class="tech-tag">User Interface</span>
+                                                        <span class="tech-tag">Database Design</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slide-footer">
+                                                <div class="project-impact">
+                                                    <strong>Academic Impact:</strong> Streamlines complex scheduling processes
+                                                </div>
+                                                <div class="project-navigation">
+                                                    <span class="tech-tag">Educational Software</span>
+                                                    <span class="tech-tag">Scheduling System</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Carousel Navigation -->
+                                    <div class="carousel-nav">
+                                        <button class="carousel-btn prev-btn">
+                                            <i class="fas fa-chevron-left"></i>
+                                        </button>
+                                        <button class="carousel-btn next-btn">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Carousel Dots -->
+                                <div class="carousel-dots">
+                                    <button class="carousel-dot active" data-index="0"></button>
+                                    <button class="carousel-dot" data-index="1"></button>
+                                    <button class="carousel-dot" data-index="2"></button>
+                                    <button class="carousel-dot" data-index="3"></button>
+                                    <button class="carousel-dot" data-index="4"></button>
+                                    <button class="carousel-dot" data-index="5"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- About Section -->
+                <section id="about" class="section">
+                    <div class="content-wrapper">
+                        <div class="container">
+                            <div class="section-header">
+                                <h2 class="section-title">About Me</h2>
+                                <p class="section-subtitle">Getting to know the developer behind the code</p>
+                            </div>
+
+                            <div class="about-content">
+                                <div class="personal-info-card">
+                                    <div class="profile-container" style="width: 200px; height: 200px; margin: 0 auto 1.5rem;">
+                                        <img src="WBC_ 7248.JPG" alt="Professional Photo" class="profile-image">
+                                    </div>
+                                    <h2>Sherwin Rich S. Espela</h2>
+                                    <div class="info-list">
+                                        <div class="info-item">
+                                            <i class="fas fa-birthday-cake"></i>
+                                            <div>
+                                                <strong>Age</strong>
+                                                <span>24 years old</span>
+                                            </div>
+                                        </div>
+                                        <div class="info-item">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            <div>
+                                                <strong>Location</strong>
+                                                <span>San Isidro, Cabuyao Laguna</span>
+                                            </div>
+                                        </div>
+                                        <div class="info-item">
+                                            <i class="fas fa-language"></i>
+                                            <div>
+                                                <strong>Languages</strong>
+                                                <span>Filipino, English</span>
+                                            </div>
+                                        </div>
+                                        <div class="info-item">
+                                            <i class="fas fa-graduation-cap"></i>
+                                            <div>
+                                                <strong>Education</strong>
+                                                <span>BS Computer Science</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary" data-target="contact" style="width: 100%;">
+                                        <i class="fas fa-paper-plane"></i>
+                                        <span>Contact Me</span>
+                                    </button>
+                                </div>
+
+                                <div class="about-details">
+                                    <div class="personal-statement">
+                                        <h3>Professional Background</h3>
+                                        <p>
+                                            Hello! I'm Sherwin, a passionate software developer specializing in VB.NET Windows Forms applications. 
+                                            Born and raised in Cabuyao, Laguna, I developed a strong work ethic that I carry into my professional life.
+                                        </p>
+                                        <p>
+                                            My programming journey started at Westbridge Institute of Technology, where I discovered my passion for 
+                                            creating practical solutions through code. I graduated with a Bachelor's degree in Computer Science, 
+                                            earning the Best in Thesis Award for my work on academic scheduling systems.
+                                        </p>
+                                        <p>
+                                            I believe in creating software that not only functions well but also makes a positive impact on people's work. 
+                                            My focus is on building reliable, efficient desktop applications that solve real business problems.
+                                        </p>
+                                    </div>
+
+                                    <div class="education-section">
+                                        <h3>Education</h3>
+                                        <div class="education-grid">
+                                            <div class="education-item">
+                                                <h4>College Education</h4>
+                                                <p class="degree">BS Computer Science</p>
+                                                <div class="institution">
+                                                    <i class="fas fa-school"></i>
+                                                    Westbridge Institute of Technology, Inc.
+                                                </div>
+                                                <span class="year">Graduated 2024</span>
+                                                <div class="education-highlights">
+                                                    <div class="highlight-item">
+                                                        <i class="fas fa-check"></i>
+                                                        <span>Specialized in Windows Forms development</span>
+                                                    </div>
+                                                    <div class="highlight-item">
+                                                        <i class="fas fa-check"></i>
+                                                        <span>Thesis on academic scheduling systems</span>
+                                                    </div>
+                                                </div>
+                                                <span class="achievement-badge">
+                                                    <i class="fas fa-trophy"></i> Best in Thesis Award
+                                                </span>
+                                            </div>
+
+                                            <div class="education-item">
+                                                <h4>Senior High School</h4>
+                                                <p class="degree">ICT Strand</p>
+                                                <div class="institution">
+                                                    <i class="fas fa-school"></i>
+                                                    Westbridge Institute of Technology, Inc.
+                                                </div>
+                                                <span class="year">2018 - 2020</span>
+                                                <div class="education-highlights">
+                                                    <div class="highlight-item">
+                                                        <i class="fas fa-check"></i>
+                                                        <span>Specialized in ICT</span>
+                                                    </div>
+                                                    <div class="highlight-item">
+                                                        <i class="fas fa-check"></i>
+                                                        <span>Developed programming foundation</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="education-item">
+                                                <h4>Junior High School</h4>
+                                                <p class="degree">ICT Strand</p>
+                                                <div class="institution">
+                                                    <i class="fas fa-school"></i>
+                                                    Pulo National High School
+                                                </div>
+                                                <span class="year">2014 - 2018</span>
+                                                <div class="education-highlights">
+                                                    <div class="highlight-item">
+                                                        <i class="fas fa-check"></i>
+                                                        <span>First exposure to IT concepts</span>
+                                                    </div>
+                                                    <div class="highlight-item">
+                                                        <i class="fas fa-check"></i>
+                                                        <span>Developed interest in programming</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Contact Section -->
+                <section id="contact" class="section">
+                    <div class="content-wrapper">
+                        <div class="container">
+                            <div class="section-header">
+                                <h2 class="section-title">Let's Work Together</h2>
+                                <p class="section-subtitle">Available for VB.NET desktop application projects and consulting</p>
+                            </div>
+
+                            <div class="contact-section">
+                                <div class="contact-grid">
+                                    <div class="contact-card">
+                                        <h4>Contact Information</h4>
+                                        <div class="contact-info">
+                                            <div class="contact-item">
+                                                <i class="fas fa-phone"></i>
+                                                <div class="contact-details">
+                                                    <span>09638812138</span>
+                                                    <small>Phone / WhatsApp</small>
+                                                </div>
+                                            </div>
+                                            <div class="contact-item">
+                                                <i class="fas fa-envelope"></i>
+                                                <div class="contact-details">
+                                                    <span>Sherwinespela1@gmail.com</span>
+                                                    <small>Primary Email</small>
+                                                </div>
+                                            </div>
+                                            <div class="contact-item">
+                                                <i class="fas fa-map-marker-alt"></i>
+                                                <div class="contact-details">
+                                                    <span>San Isidro, Cabuyao Laguna</span>
+                                                    <small>Location</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="contact-card">
+                                        <h4>Availability & Services</h4>
+                                        <div class="contact-info">
+                                            <div class="contact-item">
+                                                <i class="fas fa-briefcase"></i>
+                                                <div class="contact-details">
+                                                    <span>Currently Employed</span>
+                                                    <small>Mayer Steel Pipe Corporation</small>
+                                                </div>
+                                            </div>
+                                            <div class="contact-item">
+                                                <i class="fas fa-clock"></i>
+                                                <div class="contact-details">
+                                                    <span>Freelance Available</span>
+                                                    <small>Part-time projects welcome</small>
+                                                </div>
+                                            </div>
+                                            <div class="contact-item">
+                                                <i class="fas fa-laptop-code"></i>
+                                                <div class="contact-details">
+                                                    <span>VB.NET Development</span>
+                                                    <small>Desktop Applications Only</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="contact-cta">
+                                    <a href="mailto:Sherwinespela1@gmail.com" class="btn btn-primary">
+                                        <i class="fas fa-paper-plane"></i>
+                                        <span>Start a Project Inquiry</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navigation elements
+            const navIcons = document.querySelectorAll('.nav-icon');
+            const buttons = document.querySelectorAll('[data-target]');
+            const sections = document.querySelectorAll('.section');
+            const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+            const sidebar = document.querySelector('.sidebar');
+
+            // Carousel elements
+            const slides = document.querySelectorAll('.carousel-slide');
+            const dots = document.querySelectorAll('.carousel-dot');
+            const prevBtn = document.querySelector('.prev-btn');
+            const nextBtn = document.querySelector('.next-btn');
+            let currentSlide = 0;
+
+            // Function to show section
+            function showSection(sectionId) {
+                // Hide all sections
+                sections.forEach(section => {
+                    section.classList.remove('active');
+                });
+                
+                // Show selected section
+                const targetSection = document.getElementById(sectionId);
+                if (targetSection) {
+                    targetSection.classList.add('active');
+                }
+                
+                // Update active navigation
+                updateActiveNav(sectionId);
+                
+                // Close mobile menu
+                if (window.innerWidth <= 768) {
+                    sidebar.style.display = 'none';
+                }
+
+                // Reset carousel when switching to projects section
+                if (sectionId === 'projects') {
+                    goToSlide(0);
+                }
+            }
+
+            // Function to update active navigation
+            function updateActiveNav(sectionId) {
+                navIcons.forEach(icon => {
+                    icon.classList.remove('active');
+                    if (icon.getAttribute('data-target') === sectionId) {
+                        icon.classList.add('active');
+                    }
+                });
+            }
+
+            // Carousel functions
+            function goToSlide(n) {
+                // Pause all videos first
+                const iframes = document.querySelectorAll('iframe');
+                iframes.forEach(iframe => {
+                    const src = iframe.src;
+                    iframe.src = src; // This effectively pauses the video
+                });
+
+                slides.forEach(slide => slide.classList.remove('active'));
+                dots.forEach(dot => dot.classList.remove('active'));
+                
+                currentSlide = (n + slides.length) % slides.length;
+                
+                slides[currentSlide].classList.add('active');
+                dots[currentSlide].classList.add('active');
+            }
+
+            function nextSlide() {
+                goToSlide(currentSlide + 1);
+            }
+
+            function prevSlide() {
+                goToSlide(currentSlide - 1);
+            }
+
+            // Auto-rotate carousel
+            let carouselInterval;
+            function startCarousel() {
+                clearInterval(carouselInterval);
+                carouselInterval = setInterval(nextSlide, 8000); // 8 seconds per slide
+            }
+
+            // Navigation click handlers
+            navIcons.forEach(icon => {
+                icon.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-target');
+                    showSection(targetId);
+                });
+            });
+
+            // Button click handlers
+            buttons.forEach(button => {
+                if (button.getAttribute('data-target')) {
+                    button.addEventListener('click', function() {
+                        const targetId = this.getAttribute('data-target');
+                        showSection(targetId);
+                    });
+                }
+            });
+
+            // Carousel event listeners
+            prevBtn.addEventListener('click', () => {
+                prevSlide();
+                startCarousel();
+            });
+
+            nextBtn.addEventListener('click', () => {
+                nextSlide();
+                startCarousel();
+            });
+
+            dots.forEach(dot => {
+                dot.addEventListener('click', function() {
+                    const slideIndex = parseInt(this.getAttribute('data-index'));
+                    goToSlide(slideIndex);
+                    startCarousel();
+                });
+            });
+
+            // Pause carousel on hover
+            const carouselContainer = document.querySelector('.carousel-container');
+            carouselContainer.addEventListener('mouseenter', () => {
+                clearInterval(carouselInterval);
+            });
+
+            carouselContainer.addEventListener('mouseleave', startCarousel);
+
+            // Mobile menu toggle
+            mobileMenuToggle.addEventListener('click', function() {
+                sidebar.style.display = sidebar.style.display === 'flex' ? 'none' : 'flex';
+            });
+
+            // Close sidebar when clicking outside on mobile
+            document.addEventListener('click', function(e) {
+                if (window.innerWidth <= 768) {
+                    if (!sidebar.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
+                        sidebar.style.display = 'none';
+                    }
+                }
+            });
+
+            // Handle window resize
+            function handleResize() {
+                if (window.innerWidth <= 768) {
+                    sidebar.style.display = 'none';
+                    mobileMenuToggle.style.display = 'flex';
+                } else {
+                    sidebar.style.display = 'flex';
+                    mobileMenuToggle.style.display = 'none';
+                }
+            }
+
+            // Initialize
+            showSection('home');
+            goToSlide(0);
+            startCarousel();
+            handleResize();
+            window.addEventListener('resize', handleResize);
+        });
+    </script>
+</body>
+</html>
